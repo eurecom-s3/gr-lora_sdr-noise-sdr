@@ -62,9 +62,9 @@ namespace gr {
         const char* charmap = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         const size_t charmapLength = strlen(charmap);
         auto generator = [&](){ return charmap[rand()%charmapLength]; };
-        std::string result;
-        result.reserve(Nbytes);
-        std::generate_n(std::back_inserter(result), Nbytes, generator);
+        std::string result = "Hello From DRAM\n";
+        // result.reserve(Nbytes);
+        // std::generate_n(std::back_inserter(result), Nbytes, generator);
         return result;
     }
     void data_source_impl::trigg_handler(pmt::pmt_t msg){

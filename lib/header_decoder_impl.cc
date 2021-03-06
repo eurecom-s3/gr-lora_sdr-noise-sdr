@@ -149,10 +149,13 @@ namespace gr {
       }
       else{// no header to decode
          for(int i=0;i<ninput_items[0];i++){
-             if(pay_cnt<m_payload_len*2+(m_has_crc?4:0)){//only output usefull value (payload and CRC if any)
+           if (pay_cnt < m_payload_len * 2 +
+                             (m_has_crc ? 4 : 0)) { // only output usefull value
+                                                    // (payload and CRC if any)
                 nout++;
                 pay_cnt++;
                 out[i] = in[i];
+                // printf("%x\n", out[i]);
              }
          }
          consume_each (ninput_items[0]);

@@ -41,6 +41,7 @@ namespace gr {
       uint32_t m_samp_rate;   ///< Sampling rate
       uint8_t m_sf;           ///< Spreading factor
       uint8_t m_cr;           ///< Coding rate
+      uint8_t m_is_simple;    ///< Simple CSS mode
 
       uint32_t m_number_of_bins;      ///< Number of bins in each lora Symbol
       uint32_t m_samples_per_symbol;  ///< Number of samples received per lora symbols
@@ -85,7 +86,8 @@ namespace gr {
       void header_cr_handler(pmt::pmt_t cr);
 
      public:
-      fft_demod_impl(float samp_rate, uint32_t bandwidth, uint8_t sf, bool impl_head);
+       fft_demod_impl(float samp_rate, uint32_t bandwidth, uint8_t sf,
+                      bool impl_head, bool is_simple);
       ~fft_demod_impl();
 
       // Where all the action really happens

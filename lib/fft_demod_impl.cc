@@ -31,24 +31,24 @@ extern "C" {
 namespace gr {
   namespace lora_sdr {
 
-    fft_demod::sptr
-    fft_demod::make(float samp_rate, uint32_t bandwidth, uint8_t sf, bool impl_head)
-    {
-      return gnuradio::get_initial_sptr
-        (new fft_demod_impl(samp_rate, bandwidth, sf, impl_head));
+  fft_demod::sptr fft_demod::make(float samp_rate, uint32_t bandwidth,
+                                  uint8_t sf, bool impl_head, bool is_simple) {
+    return gnuradio::get_initial_sptr(
+        new fft_demod_impl(samp_rate, bandwidth, sf, impl_head, is_simple));
     }
 
     /*
      * The private constructor
      */
-    fft_demod_impl::fft_demod_impl(float samp_rate, uint32_t bandwidth, uint8_t sf, bool impl_head)
-      : gr::block("fft_demod",
-      gr::io_signature::make(1,1, (1u << sf)*sizeof(gr_complex)),
-                 gr::io_signature::make(0, 1, sizeof(uint32_t)))
-      {
+    fft_demod_impl::fft_demod_impl(float samp_rate, uint32_t bandwidth,
+                                   uint8_t sf, bool impl_head, bool is_simple)
+        : gr::block("fft_demod", gr::io_signature::make(
+                                     1, 1, (1u << sf) * sizeof(gr_complex)),
+                    gr::io_signature::make(0, 1, sizeof(uint32_t))) {
           m_bw                = bandwidth;
           m_samp_rate         = samp_rate;
           m_sf                = sf;
+          m_is_simple = is_simple;
 
           m_number_of_bins    = (uint32_t)(1u << m_sf);
           m_samples_per_symbol = (uint32_t)(m_samp_rate*m_number_of_bins / m_bw);
@@ -152,16 +152,15 @@ namespace gr {
        uint32_t *out = (uint32_t *) output_items[0];
        if(is_first||received_cr){
            //shift by -1 and use reduce rate if first block (header)
-           output.push_back(mod(get_symbol_val(in)-1,(1<<m_sf))/(is_first?4:1));
-           block_size = 4+(is_first? 4:m_cr);
+         output.push_back(mod(get_symbol_val(in) - 1, (1 << m_sf)) /
+                          ((is_first && !m_is_simple) ? 4 : 1));
+         block_size = 4 + ((is_first) ? 4 : m_cr);
            if((output.size() == block_size)){
                is_first = false;
                memcpy(&out[0],&output[0],block_size*sizeof(uint32_t));
-
                output.clear();
                noutput_items = block_size;
-               }
-           else
+           } else
                noutput_items = 0;
            consume_each(1);
            return noutput_items;

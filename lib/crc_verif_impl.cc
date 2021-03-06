@@ -108,16 +108,19 @@ namespace gr {
 
             //XOR the obtained CRC with the last 2 data bytes
             m_crc = m_crc ^ in_buff[m_payload_len-1] ^ (in_buff[m_payload_len-2]<<8);
-            #ifdef GRLORA_DEBUG
-            for(int i =0;i<in_buff.size();i++)
-            std::cout<< std::hex << (int)in_buff[i]<<std::dec<<std::endl;
+#ifdef GRLORA_DEBUG
+            for (int i = 0; i < in_buff.size(); i++)
+              std::cout << std::hex << (int)in_buff[i] << std::dec << std::endl;
             std::cout<<"Calculated "<<std::hex<<m_crc<<std::dec<<std::endl;
             std::cout<<"Got "<<std::hex<<(in_buff[m_payload_len]+(in_buff[m_payload_len+1]<<8))<<std::dec<<std::endl;
-            #endif
+            printf("%x %x\n", in_buff[m_payload_len],
+                   in_buff[m_payload_len + 1]);
+#endif
 
             //get payload as string
             message_str.clear();
-            for(int i =0;i<in_buff.size()-2;i++){
+            // printf("len %d\n", in_buff.size() - 2);
+            for (int i = 0; i < in_buff.size() - 2; i++) {
                 m_char= (char)in_buff[i];
                 message_str = message_str+m_char;
             }

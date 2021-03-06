@@ -4,7 +4,7 @@
   <key>lora_sdr_fft_demod</key>
   <category>[LoRa_RX]</category>
   <import>import lora_sdr</import>
-  <make>lora_sdr.fft_demod($samp_rate, $bandwidth, $sf, $impl_head)</make>
+  <make>lora_sdr.fft_demod($samp_rate, $bandwidth, $sf, $impl_head, $is_simple)</make>
   <param>
      <name>Samp_rate</name>
      <key>samp_rate</key>
@@ -23,6 +23,11 @@
    <param>
      <name>Impl_head</name>
      <key>impl_head</key>
+     <type>bool</type>
+   </param>
+   <param>
+     <name>Is_Simple</name>
+     <key>is_simple</key>
      <type>bool</type>
    </param>
    <sink>
