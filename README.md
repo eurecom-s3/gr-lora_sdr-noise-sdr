@@ -1,3 +1,9 @@
+## Edit
+
+This project is based on https://github.com/tapparelj/gr-lora_sdr with some modifications to be used in
+conjunction with Noise-SDR https://github.com/eurecom-s3/noise-sdr.
+See https://github.com/eurecom-s3/noise-sdr/blob/main/README.md for more details.
+
 ## Summary
 This is the fully-functional GNU Radio software-defined radio (SDR) implementation of a LoRa transceiver with all the necessary receiver components to operate correctly even at very low SNRs.  This work has been conducted at the Telecommunication Circuits Laboratory, EPFL. 
 
